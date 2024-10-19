@@ -227,6 +227,7 @@ int	init_map_tmp(void)
 	g()->usr.posx = 5.5;
 	g()->usr.posy = 5.5;
 	g()->usr.dirx = 1.0;
+	g()->usr.diry = 0.0;
 	g()->usr.ply = 0.66;
 	_memmove(g()->map.data, map_tmp, sizeof(map_tmp));
 	return (1);
