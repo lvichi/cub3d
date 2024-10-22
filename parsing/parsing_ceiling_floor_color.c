@@ -24,16 +24,24 @@ int get_ceiling_floor_color(char *buffer, t_map *map)
 	int		valid_f = 0;
 	int		valid_c = 0;
 
-	while (buffer[i] != '\0') {
-		if (buffer[i] != '\n' && line_pos < sizeof(line) - 1) {
+	while (buffer[i] != '\0')
+    {
+		if (buffer[i] != '\n' && line_pos < sizeof(line) - 1)
 			line[line_pos++] = buffer[i];
-		} else {
+		else
+        {
 			line[line_pos] = '\0';
 			line_pos = 0;
 			if (line[0] == 'F' && ++valid_f)
-				map->floor_color = parse_color(&line[2]);
-			if (line[0] == 'C' && ++valid_c)
-				map->ceil_color = parse_color(&line[2]);
+            {
+                map->floor_color = parse_color(&line[2]);
+                remove_first_line(line);
+            }
+            if (line[0] == 'C' && ++valid_c)
+            {
+                map->ceil_color = parse_color(&line[2]);
+                remove_first_line(line);
+            }
 		}
 		i++;
 	}
@@ -44,7 +52,9 @@ int get_ceiling_floor_color(char *buffer, t_map *map)
 
 int parse_int(char *line)
 {
-	int res = 0;
+	int res;
+
+    res = 0;
 	while((*line) >= '0' && (*line) <= '9')
 	{
 		res = res*10 + (*line - '0');
@@ -55,11 +65,16 @@ int parse_int(char *line)
 
 int parse_color(char *line)
 {
-	int r = parse_int(line);
-	line++;
-	int g = parse_int(line);
-	line++;
-	int b = parse_int(line);
+    int r;
+    int g;
+    int b;
+    int rgb;
 
-	return (((0xFF & 0xff) << 24) | ((r & 0xff) << 16) | ((g & 0xff) << 8) | (b & 0xff));
+    r = parse_int(line);
+	line++;
+	g = parse_int(line);
+	line++;
+	b = parse_int(line);
+    rgb = ((0xFF & 0xff) << 24) | ((r & 0xff) << 16) | ((g & 0xff) << 8) | (b & 0xff);
+	return (rgb);
 }

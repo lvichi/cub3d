@@ -12,10 +12,10 @@
 
 #ifndef PARSING_H
 # define PARSING_H
-# include <stdio.h> // printf
+# include <stdio.h> // printf         ## DEBUG DELETE ##
 # include <fcntl.h> // open
 # include <unistd.h> // read, close
-# define map_size_max 1048576
+# define MAP_SIZE_MAX 1048576
 
 typedef struct s_img	t_img;
 struct s_img
@@ -55,14 +55,30 @@ struct s_usr
 };
 
 // parsing.c
-int parsing(char *file, t_map *map, t_usr *usr);
-int get_data(char *buffer, t_map *map);
-int get_textures(char *buffer, t_map *map);
-int get_map(char *buffer, t_map *map);
+int     parsing(char *file, t_map *map, t_usr *usr);
+int     get_data(char *buffer, t_map *map, t_usr *usr);
+void    write_error(int type);
+void    *ft_memset(void *str, int c, size_t n);
 
 // parsing_ceiling_floor_color.c
-int get_ceiling_floor_color(char *buffer, t_map *map);
-int parse_int(char *line);
-int parse_color(char *line);
+int     get_ceiling_floor_color(char *buffer, t_map *map);
+int     parse_int(char *line);
+int     parse_color(char *line);
+
+// parsing_texture.c
+int     get_textures(char *buffer, t_map *map);
+
+// parsing_map.c
+int     get_map(char *buffer, t_map *map);
+
+// parsing_usr.c
+int     get_usr(char *buffer, t_usr *usr);
+
+// parsing_utils.c
+int     ft_strlen(char *s);
+char    *ft_strchr(char *s, int c);
+void    ft_memmove(char *dest, const void *src, int n);
+void    *ft_memset(void *str, int c, size_t n);
+void    remove_first_line(char *buffer);
 
 #endif

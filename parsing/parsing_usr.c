@@ -14,8 +14,8 @@
 
 int	get_usr(char *buffer, t_usr *usr)
 {
-
-
+    (void)buffer;
+    (void)usr;
 	return (0);
 }
 
