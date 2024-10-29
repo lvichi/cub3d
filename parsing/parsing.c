@@ -13,46 +13,60 @@
 #include "parsing.h"
 
 int     parsing(char *file, t_map *map, t_usr *usr);
-int     get_data(char *buffer, t_map *map, t_usr *usr);
-void    write_error(int type);
-void    *ft_memset(void *str, int c, size_t n);
+int 	get_data(t_parsing *buffer, t_map *map, t_usr *usr);
+int		write_error(int type, t_parsing *parsing_data);
 
 
 int parsing(char *file, t_map *map, t_usr *usr)
 {
-	int fd;
-	char buffer[MAP_SIZE_MAX];
+	t_parsing	*parsing_data;
 
-    ft_memset(buffer, 0, MAP_SIZE_MAX);
-    fd = open(file, O_RDONLY);
-	if (fd < 0)
-		return (write_error(1), 1);
-	if (read(fd, buffer, MAP_SIZE_MAX) < 0)
-		return (close(fd), write_error(2), 1);
-	close(fd);
-    if (get_data(buffer, map, usr))
+	parsing_data = ft_calloc(1, sizeof(t_parsing));
+	if (!parsing_data)
+		return (write_error(7, parsing_data));
+	parsing_data->fd = open(file, O_RDONLY);
+	if (parsing_data->fd < 0)
+		return (write_error(1, parsing_data));
+	if (read(parsing_data->fd, parsing_data->buffer, MAP_SIZE_MAX) < 0)
+		return (close(parsing_data->fd), write_error(2, parsing_data));
+	close(parsing_data->fd);
+    if (get_data(parsing_data, map, usr))
         return (1);
-    // DEBUG
-    printf("buffer: \n%s\n", buffer);
+    printf("buffer: \n%s\n", parsing_data->buffer);      // DEBUG
+	parsing_free(parsing_data);
     return (0);
 }
 
-int get_data(char *buffer, t_map *map, t_usr *usr)
+int 	get_data(t_parsing *parsing_data, t_map *map, t_usr *usr)
 {
-	if (get_ceiling_floor_color(buffer, map))
-		return (write_error(3), 1);
-	if (get_textures(buffer, map))
-		return (write_error(4), 1);
-	if (get_map(buffer, map))
-	    return (write_error(5), 1);
-    if (get_usr(buffer, usr))
-        return (write_error(6), 1);
+	parsing_data->buffer_split = ft_split(parsing_data->buffer, '\n');
+	if (!parsing_data->buffer_split)
+		return (write_error(7, parsing_data));
+
+//    // DEBUG
+//	int i = 0;
+//	while (parsing_data->buffer_split[i])
+//	{
+//		printf("buffer_split[%d]: %s\n", i, parsing_data->buffer_split[i]);
+//		i++;
+//	}
+//	// DEBUG
+
+	if (get_ceiling_floor_color(parsing_data, map))
+		return (write_error(3, parsing_data));
+	if (get_textures(parsing_data->buffer, map))
+		return (write_error(4, parsing_data));
+	if (get_map(parsing_data->buffer, map))
+	    return (write_error(5, parsing_data));
+    if (get_usr(parsing_data->buffer, usr))
+        return (write_error(6, parsing_data));
     return (0);
 }
 
-void    write_error(int type)
+int    write_error(int type, t_parsing *parsing_data)
 {
-    write(2, "Error\n", 6);
+	parsing_free(parsing_data);
+	write(2, "Error\n", 6);
     if (type == 1)
         write(2, "File not found or incorrect "
                  "permissions to read.\n", 49);
@@ -66,4 +80,9 @@ void    write_error(int type)
         write(2, "Failed to get map.\n", 19);
     else if (type == 6)
         write(2, "Failed to get user position.\n", 29);
+	else if (type == 7)
+		write(2, "Failed to allocate memory.\n", 28);
+	else if (type == 8)
+		write(2, "Invalid number of arguments.\n", 29);
+	return (1);
 }

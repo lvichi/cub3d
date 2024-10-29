@@ -21,7 +21,7 @@ int main(int argc, char **argv)
 		if (parsing(argv[1], &map, &usr))
 			return (1);
 	if (argc != 2)
-		write(2, "Error\nInvalid number of arguments.\n", 36);
+		return (write_error(8, NULL));
 
 	printf("Ceiling color: A=%d, R=%d, G=%d, B=%d\n",
 		   (map.ceil_color >> 24) & 0xFF,
