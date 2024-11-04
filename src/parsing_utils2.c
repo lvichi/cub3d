@@ -12,111 +12,25 @@
 
 #include "parsing.h"
 
-void	*ft_calloc(size_t nmemb, size_t size);
-int     ft_strlen(char *s);
-char    *ft_strchr(char *s, int c);
-void    ft_memmove(char *dest, const void *src, int n);
-void    *ft_memset(void *str, int c, size_t n);
-void    remove_first_line(char *buffer);
-void	parsing_free(t_parsing *parsing_data);
+void	remove_first_line(char *buffer);
 char	**ft_split(char *str, char c);
 void	ft_array_free(char **array);
 int		ft_strncmp(const char *s1, const char *s2, size_t n);
+char	*ft_strstr(char const *s1, char const *s2);
 
-void	*ft_calloc(size_t nmemb, size_t size)
+void	remove_first_line(char *buffer)
 {
-	void	*ret;
+	char	*line_end;
+	int		remainder_length;
 
-	size = nmemb * size;
-	ret = malloc(size);
-	if (!ret)
-		return (NULL);
-	while (size)
-		((char *)ret)[--size] = 0;
-	return (ret);
-}
-
-int ft_strlen(char *s)
-{
-    int length;
-
-    length = 0;
-    while (*s != '\0')
-    {
-        s++;
-        length++;
-    }
-    return length;
-}
-
-char    *ft_strchr(char *s, int c)
-{
-    while (*s != '\0')
-    {
-        if (*s == c)
-            return s;
-        s++;
-    }
-    return NULL;
-}
-
-void ft_memmove(char *dest, const void *src, int n)
-{
-    char    *dest_ptr;
-    char    *src_ptr;
-
-    dest_ptr = (char*)dest;
-    src_ptr = (char*)src;
-    if (dest_ptr <= src_ptr || dest_ptr >= (src_ptr + n))
-        while (n--)
-            *dest_ptr++ = *src_ptr++;
-    else
-    {
-        dest_ptr += n;
-        src_ptr += n;
-        while (n--)
-            *--dest_ptr = *--src_ptr;
-    }
-}
-
-void    *ft_memset(void *str, int c, size_t n)
-{
-    unsigned char   *ptr = str;
-
-    while(n-- > 0)
-        *ptr++ = (unsigned char)c;
-    return str;
-}
-
-void remove_first_line(char *buffer)
-{
-    char    *line_end;
-    int     remainder_length;
-
-    line_end = ft_strchr(buffer, '\n');
-    if (line_end != NULL)
-    {
-        remainder_length = ft_strlen(line_end + 1);
-        ft_memmove(buffer, line_end + 1, remainder_length + 1);
-    }
-    else
-        buffer[0] = '\0';
-}
-
-void	parsing_free(t_parsing *parsing_data)
-{
-	int i;
-
-	i = 0;
-	if (!parsing_data)
-		return ;
-	while (parsing_data->buffer_split && parsing_data->buffer_split[i])
+	line_end = ft_strchr(buffer, '\n');
+	if (line_end != NULL)
 	{
-		free(parsing_data->buffer_split[i]);
-		i++;
+		remainder_length = ft_strlen(line_end + 1);
+		ft_memmove(buffer, line_end + 1, remainder_length + 1);
 	}
-	free(parsing_data->buffer_split);
-	free(parsing_data);
+	else
+		buffer[0] = '\0';
 }
 
 char	**ft_split(char *str, char c)
@@ -124,7 +38,7 @@ char	**ft_split(char *str, char c)
 	int		i;
 	int		j;
 	int		k;
-	char 	**str_split;
+	char	**str_split;
 
 	i = -1;
 	j = -1;
@@ -149,7 +63,7 @@ char	**ft_split(char *str, char c)
 
 void	ft_array_free(char **array)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	if (!array)
@@ -174,4 +88,27 @@ int	ft_strncmp(const char *s1, const char *s2, size_t n)
 		i++;
 	}
 	return (0);
+}
+
+char	*ft_strstr(char const *s1, char const *s2)
+{
+	const char	*h;
+	const char	*n;
+
+	if (!*s2)
+		return ((char *)s1);
+	while (*s1)
+	{
+		h = s1;
+		n = s2;
+		while (*n && *h == *n)
+		{
+			h++;
+			n++;
+		}
+		if (!*n)
+			return ((char *)s1);
+		s1++;
+	}
+	return (NULL);
 }

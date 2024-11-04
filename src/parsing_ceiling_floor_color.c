@@ -12,28 +12,28 @@
 
 #include "parsing.h"
 
-int get_ceiling_floor_color(t_parsing *parsing_data, t_map *map);
-int parse_int(char *line);
-int parse_color(char *line);
+int	get_ceiling_floor_color(t_parsing *parsing_data);
+int	parse_int(char *line);
+int	parse_color(char *line);
 
-int get_ceiling_floor_color(t_parsing *parsing_data, t_map *map)
+int	get_ceiling_floor_color(t_parsing *parsing_data)
 {
-	char    **buffer_split;
+	char	**buffer_split;
 
 	buffer_split = parsing_data->buffer_split;
 	while (*buffer_split)
 	{
 		if (ft_strncmp(*buffer_split, "C ", 2) == 0)
 		{
-			map->ceil_color = parse_color(*buffer_split + 2);
-			if (map->ceil_color == -1)
+			parsing_data->map->ceil_color = parse_color(*buffer_split + 2);
+			if (parsing_data->map->ceil_color == -1)
 				return (1);
 			parsing_data->ceiling_color++;
 		}
 		if (ft_strncmp(*buffer_split, "F ", 2) == 0)
 		{
-			map->floor_color = parse_color(*buffer_split + 2);
-			if (map->floor_color == -1)
+			parsing_data->map->floor_color = parse_color(*buffer_split + 2);
+			if (parsing_data->map->floor_color == -1)
 				return (1);
 			parsing_data->floor_color++;
 		}
@@ -44,12 +44,12 @@ int get_ceiling_floor_color(t_parsing *parsing_data, t_map *map)
 	return (0);
 }
 
-int parse_int(char *line)
+int	parse_int(char *line)
 {
-	int res;
+	int	res;
 
-    res = 0;
-	while((*line) >= '0' && (*line) <= '9')
+	res = 0;
+	while ((*line) >= '0' && (*line) <= '9')
 	{
 		res = (res * 10) + (*line - '0');
 		line++;
@@ -58,10 +58,10 @@ int parse_int(char *line)
 		return (-1);
 	if (res < 0 || res > 255)
 		return (-1);
-	return res;
+	return (res);
 }
 
-int parse_color(char *line)
+int	parse_color(char *line)
 {
 	char	**split;
 	int		rgb;
@@ -77,10 +77,7 @@ int parse_color(char *line)
 	b = parse_int(split[2]);
 	if (r == -1 || g == -1 || b == -1)
 		return (ft_array_free(split), -1);
-
-//	// DEBUG
-//	printf("r: %d, g: %d, b: %d\n", r, g, b);
-
-	rgb = ((0xFF & 0xff) << 24) | ((r & 0xff) << 16) | ((g & 0xff) << 8) | (b & 0xff);
+	rgb = ((0xFF & 0xff) << 24) | ((r & 0xff) << 16)
+		| ((g & 0xff) << 8) | (b & 0xff);
 	return (ft_array_free(split), rgb);
 }

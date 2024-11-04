@@ -12,11 +12,10 @@
 
 #include "parsing.h"
 
-int	get_map(char *buffer, t_map *map);
+int	get_map(t_parsing *parsing_data);
 
-int	get_map(char *buffer, t_map *map)
+int	get_map(t_parsing *parsing_data)
 {
-    (void)buffer;
-    (void)map;
-    return (0);
+	(void)parsing_data;
+	return (0);
 }

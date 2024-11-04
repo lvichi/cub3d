@@ -1,40 +1,33 @@
-MLX		= minilibx-linux
-SRCS	= $(wildcard *.c)
-ODIR	= objs
-OBJS	= $(SRCS:%.c=$(ODIR)/%.o)
-CFLAGS	+= -O3 --std=c99
-CFLAGS	+= -Wall -Wextra -Werror -Wpedantic -g
-CFLAGS	+= -I. -I$(MLX)
-CFLAGS	+= -fsanitize=address
-LDFLAGS	= -L$(MLX)
-LDLIBS	= -lmlx -lX11 -lXext -lm
-NAME	= cub3d
+NAME = parsing
 
-all: $(NAME) test
+CC = cc
+CFLAGS = -Wall -Wextra -Werror -g
+MINILIBX = -L minilibx-linux -lmlx -lXext -lX11
+FILES = src/*.c
+OBJS = obj/*.o
+BONUS_FILES = src_bonus/*_bonus.c
+BONUS_OBJS = obj_bonus/*_bonus.o
+RM = rm -fr
 
-test: $(NAME)
-	./$(NAME)
+all: $(NAME)
 
-leak: $(NAME)
-	valgrind --leak-check=full --show-leak-kinds=all ./$(NAME)
+$(NAME): $(OBJS)
+	@$(CC) $(CFLAGS) $(OBJS) $(MINILIBX) -o $(NAME)
 
-$(MLX):
-	@make -sC $@ > /dev/null 2>&1
-
-$(NAME): $(OBJS) | $(LIB) $(MLX)
-	$(CC) $(CFLAGS) $(LDFLAGS) -o $@ $^ $(LDLIBS)
+$(OBJS): $(FILES)
+	@make -C minilibx-linux -s
+	@mkdir -p obj
+	@$(CC) $(CFLAGS) -c $(FILES)
+	@mv *.o obj/
 
 clean:
-	$(RM)r $(ODIR)
+	@$(RM) $(OBJS) obj obj_bonus
+	@make clean -C minilibx-linux -s
 
-fclean: clean
-	$(RM) $(NAME)
-	$(RM) checker
+fclean:
+	@$(RM) $(OBJS) $(NAME) obj
+	@make clean -C minilibx-linux -s
 
 re: fclean all
 
-$(ODIR)/%.o: %.c
-	@mkdir -p $(@D)
-	$(CC) $(CFLAGS) -c $< -o $@
-
-.PHONY: all bonus clean fclean re $(MLX)
+.PHONY: all clean fclean re bonus
