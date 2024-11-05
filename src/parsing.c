@@ -53,6 +53,8 @@ int	get_data(t_parsing *parsing_data)
 		return (write_error(5, parsing_data));
 	if (get_usr(parsing_data))
 		return (write_error(6, parsing_data));
+	if (convert_map(parsing_data))
+		return (write_error(7, parsing_data));
 	return (0);
 }
 
@@ -106,3 +108,6 @@ void	parsing_free(t_parsing *p_data, int images)
 		free(p_data->mlx);
 	free(p_data);
 }
+
+int	convert_map(t_parsing *p_data)
+;
