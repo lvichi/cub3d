@@ -3,6 +3,7 @@ NAME = parsing
 CC = cc
 CFLAGS = -Wall -Wextra -Werror -g
 MINILIBX = -L minilibx-linux -lmlx -lXext -lX11
+LIBS = -lm
 FILES = src/*.c
 OBJS = obj/*.o
 RM = rm -fr
@@ -10,7 +11,7 @@ RM = rm -fr
 all: $(NAME)
 
 $(NAME): $(OBJS)
-	@$(CC) $(CFLAGS) $(OBJS) $(MINILIBX) -o $(NAME)
+	@$(CC) $(CFLAGS) $(OBJS) $(MINILIBX) $(LIBS) -o $(NAME)
 
 $(OBJS): $(FILES)
 	@make -sC minilibx-linux -s > /dev/null 2>&1

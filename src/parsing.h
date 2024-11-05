@@ -12,13 +12,20 @@
 
 #ifndef PARSING_H
 # define PARSING_H
-# include <stdio.h> 						// printf      ## DEBUG DELETE ##
-# include <fcntl.h> 						// open
-# include <unistd.h> 						// read, close
-# include <stdlib.h> 						// malloc, free
-# include "../minilibx-linux/mlx.h"        // mlx_*
+# include <stdio.h> 					// printf      ## DEBUG DELETE ##
+# include <fcntl.h> 					// open
+# include <unistd.h> 					// read, close
+# include <stdlib.h>					// malloc, free
+# include <math.h>						// M_PI
+# include "../minilibx-linux/mlx.h"		// mlx_*
 
 # define MAP_SIZE_MAX 1048576
+# define ALLOWED_CHARS "01NESW "
+# define MOVE_AREA "0"
+# define USER_POS "NESW"
+# define WALL "1"
+# define EMPTY_SPACE " "
+# define PLY_CONST 0.66
 
 typedef struct s_img	t_img;
 struct s_img
@@ -100,9 +107,14 @@ int		check_line(char *buffer_split, t_parsing *p_data);
 
 // parsing_map.c
 int		get_map(t_parsing *p_data);
+void	get_map_dimensions(t_parsing *p_data);
+int		set_map_temp(t_parsing *p_data);
+int		check_map(t_parsing *p_data);
+int		check_path(t_parsing *p_data, int i, int j);
 
 // parsing_usr.c
-int		get_usr(t_parsing *parsing_data);
+int		get_usr(t_parsing *p_data);
+void	get_user_info(t_parsing *p_data, int y, int x);
 
 // parsing_utils.c
 void	*ft_calloc(size_t nmemb, size_t size);

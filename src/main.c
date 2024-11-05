@@ -25,11 +25,7 @@ int main(int argc, char **argv)
 	if (!mlx)
 		return (1);
 	if (parsing(argv[1], &map, &usr, mlx))
-	{
-		mlx_destroy_display(mlx);
-		free(mlx);
 		return (1);
-	}
 
 
 	printf("Ceiling color: A=%d, R=%d, G=%d, B=%d\n",
@@ -45,6 +41,9 @@ int main(int argc, char **argv)
 		   map.floor_color & 0xFF);
 
 	printf("Map size: %dx%d\n", map.width, map.height);
+	printf("Player position: x=%f, y=%f\n", usr.posx, usr.posy);
+	printf("Player direction: x=%f, y=%f\n", usr.dirx, usr.diry);
+	printf("Player plane: %f\n", usr.ply);
 
 	void *win = mlx_new_window(mlx, 800, 600, "Cub3D");
 	sleep(1);

@@ -82,15 +82,16 @@ void	parsing_free(t_parsing *p_data, int images)
 {
 	int	i;
 
-	i = 0;
+	i = -1;
 	if (!p_data)
 		return ;
-	while (p_data->buffer_split && p_data->buffer_split[i])
-	{
+	while (p_data->buffer_split && p_data->buffer_split[++i])
 		free(p_data->buffer_split[i]);
-		i++;
-	}
 	free(p_data->buffer_split);
+	i = -1;
+	while (p_data->map_temp && p_data->map_temp[++i])
+		free(p_data->map_temp[i]);
+	free(p_data->map_temp);
 	if (p_data->map->north.ptr && images)
 		mlx_destroy_image(p_data->mlx, p_data->map->north.ptr);
 	if (p_data->map->south.ptr && images)
@@ -99,5 +100,9 @@ void	parsing_free(t_parsing *p_data, int images)
 		mlx_destroy_image(p_data->mlx, p_data->map->east.ptr);
 	if (p_data->map->west.ptr && images)
 		mlx_destroy_image(p_data->mlx, p_data->map->west.ptr);
+	if (p_data->mlx && images)
+		mlx_destroy_display(p_data->mlx);
+	if (p_data->mlx && images)
+		free(p_data->mlx);
 	free(p_data);
 }
