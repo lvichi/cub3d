@@ -1,10 +1,12 @@
-NO ./enemy.xpm
-SO ./exit.xpm
-WE ./north.xpm
-EA ./player.xpm
+NO ./images/enemy.xpm
+SO ./images/exit.xpm
+WE ./images/north.xpm
+EA ./images/player.xpm
 
 F 220,100,0
 C 225,255,0
+
+
 
         1111111111111111111111111
         1000000000110000000000001
@@ -20,3 +22,6 @@ C 225,255,0
 11000001110101011111011110N0111
 11110111 1110101 101111010001
 11111111 1111111 111111111111
+
+
+

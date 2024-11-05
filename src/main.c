@@ -44,6 +44,8 @@ int main(int argc, char **argv)
 		   (map.floor_color >> 8) & 0xFF,
 		   map.floor_color & 0xFF);
 
+	printf("Map size: %dx%d\n", map.width, map.height);
+
 	void *win = mlx_new_window(mlx, 800, 600, "Cub3D");
 	sleep(1);
 	mlx_put_image_to_window(mlx, win, map.north.ptr, 200, 200);

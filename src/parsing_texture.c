@@ -14,6 +14,7 @@
 
 int	get_textures(t_parsing *parsing_data);
 int	load_texture(char *file, t_parsing *p_data, char *type);
+int	check_line(char *buffer_split, t_parsing *p_data);
 
 int	get_textures(t_parsing *p_data)
 {
@@ -22,24 +23,34 @@ int	get_textures(t_parsing *p_data)
 	buffer_split = p_data->buffer_split;
 	while (*buffer_split)
 	{
-		if (ft_strncmp(*buffer_split, "NO ", 3) == 0)
-			if (p_data->map->north.ptr
-				|| load_texture(*buffer_split + 3, p_data, "north"))
-				return (1);
-		if (ft_strncmp(*buffer_split, "SO ", 3) == 0)
-			if (p_data->map->south.ptr
-				|| load_texture(*buffer_split + 3, p_data, "south"))
-				return (1);
-		if (ft_strncmp(*buffer_split, "WE ", 3) == 0)
-			if (p_data->map->west.ptr
-				|| load_texture(*buffer_split + 3, p_data, "west"))
-				return (1);
-		if (ft_strncmp(*buffer_split, "EA ", 3) == 0)
-			if (p_data->map->east.ptr
-				|| load_texture(*buffer_split + 3, p_data, "east"))
-				return (1);
+		if (check_line(*buffer_split, p_data))
+			return (1);
 		buffer_split++;
 	}
+	if (!p_data->map->north.ptr || !p_data->map->south.ptr
+		|| !p_data->map->east.ptr || !p_data->map->west.ptr)
+		return (1);
+	return (0);
+}
+
+int	check_line(char *line, t_parsing *p_data)
+{
+	if (ft_strncmp(line, "NO ", 3) == 0)
+		if (p_data->map->north.ptr
+			|| load_texture(line + 3, p_data, "north"))
+			return (1);
+	if (ft_strncmp(line, "SO ", 3) == 0)
+		if (p_data->map->south.ptr
+			|| load_texture(line + 3, p_data, "south"))
+			return (1);
+	if (ft_strncmp(line, "WE ", 3) == 0)
+		if (p_data->map->west.ptr
+			|| load_texture(line + 3, p_data, "west"))
+			return (1);
+	if (ft_strncmp(line, "EA ", 3) == 0)
+		if (p_data->map->east.ptr
+			|| load_texture(line + 3, p_data, "east"))
+			return (1);
 	return (0);
 }
 

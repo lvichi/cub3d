@@ -77,6 +77,9 @@ typedef struct s_parsing
 	char	**buffer_split;
 	int		ceiling_color;
 	int		floor_color;
+	char	**map_temp;
+	int		map_start;
+	int		map_end;
 }	t_parsing;
 
 // parsing.c
@@ -92,9 +95,11 @@ int		parse_color(char *line);
 
 // parsing_texture.c
 int		get_textures(t_parsing *parsing_data);
+int		load_texture(char *file, t_parsing *p_data, char *type);
+int		check_line(char *buffer_split, t_parsing *p_data);
 
 // parsing_map.c
-int		get_map(t_parsing *parsing_data);
+int		get_map(t_parsing *p_data);
 
 // parsing_usr.c
 int		get_usr(t_parsing *parsing_data);
