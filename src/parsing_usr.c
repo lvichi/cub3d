@@ -44,7 +44,7 @@ int	get_usr(t_parsing *p_data)
 void	get_user_info(t_parsing *p_data, int y, int x)
 {
 	int	length;
-	int i;
+	int	i;
 
 	p_data->usr->posx = x + 0.5;
 	p_data->usr->posy = y + 0.5;

@@ -94,6 +94,7 @@ int		parsing(char *file, t_map *map, t_usr *usr, t_mlx *mlx);
 int		get_data(t_parsing *parsing_data);
 int		write_error(int type, t_parsing *parsing_data);
 void	parsing_free(t_parsing *parsing_data, int images);
+int		convert_map(t_parsing *p_data);
 
 // parsing_ceiling_floor_color.c
 int		get_ceiling_floor_color(t_parsing *parsing_data);

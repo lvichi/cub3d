@@ -45,6 +45,17 @@ int main(int argc, char **argv)
 	printf("Player direction: x=%f, y=%f\n", usr.dirx, usr.diry);
 	printf("Player plane: %f\n", usr.ply);
 
+	printf("\nmap:\n");
+	int i = -1;
+	int j;
+	while (++i < map.height)
+	{
+		j = -1;
+		while (++j < map.width)
+			printf("%d", map.data[i * map.width + j]);
+		printf("\n");
+	}
+
 	void *win = mlx_new_window(mlx, 800, 600, "Cub3D");
 	sleep(1);
 	mlx_put_image_to_window(mlx, win, map.north.ptr, 200, 200);
@@ -63,5 +74,6 @@ int main(int argc, char **argv)
 	mlx_destroy_image(mlx, map.west.ptr);
 	mlx_destroy_display(mlx);
 	free(mlx);
+	free(map.data);
 	return (0);
 }

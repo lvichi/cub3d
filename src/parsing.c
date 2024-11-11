@@ -16,6 +16,7 @@ int		parsing(char *file, t_map *map, t_usr *usr, t_mlx *mlx);
 int		get_data(t_parsing *parsing_data);
 int		write_error(int type, t_parsing *parsing_data);
 void	parsing_free(t_parsing *parsing_data, int images);
+int		convert_map(t_parsing *p_data);
 
 int	parsing(char *file, t_map *map, t_usr *usr, t_mlx *mlx)
 {
@@ -110,4 +111,22 @@ void	parsing_free(t_parsing *p_data, int images)
 }
 
 int	convert_map(t_parsing *p_data)
-;
+{
+	int	i;
+	int	j;
+	int	length;
+
+	length = p_data->map->width * p_data->map->height;
+	p_data->map->data = (int *)ft_calloc(length, sizeof(int));
+	if (!p_data->map->data)
+		return (1);
+	i = -1;
+	while (p_data->map_temp && p_data->map_temp[++i])
+	{
+		j = -1;
+		while (p_data->map_temp[i][++j])
+			if (p_data->map_temp[i][j] == WALL[0])
+				p_data->map->data[i * p_data->map->width + j] = 1;
+	}
+	return (0);
+}
