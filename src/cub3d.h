@@ -15,7 +15,7 @@
 
 # include <stdlib.h>     // malloc, free, size_t, exit, etc...
 # include <fcntl.h>		 // open
-# include <stdio.h>      // printf
+# include <stdio.h>      // perror
 # include <sys/time.h>   // gettimeofday
 # include <unistd.h>     // read, write
 
@@ -33,8 +33,6 @@
 
 # define WIN_WIDTH 800
 # define WIN_HEIGHT 600
-//define WIN_WIDTH 200
-//define WIN_HEIGHT 200
 
 // Parsing defines
 # define MAP_SIZE_MAX 1048576
