@@ -14,6 +14,7 @@
 
 int		get_usr(t_parsing *p_data);
 void	get_user_info(t_parsing *p_data, int y, int x);
+void	set_user_dir_pl(t_parsing *p_data, char c);
 
 int	get_usr(t_parsing *p_data)
 {
@@ -51,37 +52,31 @@ void	get_user_info(t_parsing *p_data, int y, int x)
 	while (USER_POS[++i])
 	{
 		if (USER_POS[i] == p_data->map_temp[y][x])
-		{
-			if (USER_POS[i] == 'S')
-			{
-				p_data->usr->dirx = 0.0;
-				p_data->usr->diry = 1.0;
-				p_data->usr->ply = 0.0;
-				p_data->usr->plx = -0.66;
-			}
-			else if (USER_POS[i] == 'E')
-			{
-				p_data->usr->dirx = 1.0;
-				p_data->usr->diry = 0.0;
-				p_data->usr->ply = 0.66;
-				p_data->usr->plx = 0.0;
-			}
-			else if (USER_POS[i] == 'N')
-			{
-				p_data->usr->dirx = 0.0;
-				p_data->usr->diry = -1.0;
-				p_data->usr->ply = 0.0;
-				p_data->usr->plx = 0.66;
-			}
-			else if (USER_POS[i] == 'W')
-			{
-				p_data->usr->dirx = -1.0;
-				p_data->usr->diry = 0.0;
-				p_data->usr->ply = -0.66;
-				p_data->usr->plx = 0.0;
-			}
-			return ;
-		}
+			set_user_dir_pl(p_data, USER_POS[i]);
 	}
 	p_data->map_temp[y][x] = MOVE_AREA[0];
+}
+
+void	set_user_dir_pl(t_parsing *p_data, char c)
+{
+	if (c == 'N')
+	{
+		p_data->usr->diry = -1;
+		p_data->usr->plx = PLY_CONST;
+	}
+	else if (c == 'S')
+	{
+		p_data->usr->diry = 1;
+		p_data->usr->plx = -PLY_CONST;
+	}
+	else if (c == 'E')
+	{
+		p_data->usr->dirx = 1;
+		p_data->usr->ply = PLY_CONST;
+	}
+	else if (c == 'W')
+	{
+		p_data->usr->dirx = -1;
+		p_data->usr->ply = -PLY_CONST;
+	}
 }

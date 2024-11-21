@@ -22,7 +22,7 @@
 # define __USE_MISC      // Math constants (M_PI)
 # include <math.h>       // (almost all of them)
 
-# include "mlx.h"        // mlx_*
+# include "../minilibx-linux/mlx.h"        // mlx_*
 # include "ft_alloc.h"   // ft_calloc, ft_free, ft_clean // good stuff
 
 # define RIGHT_ARROW 65363
@@ -234,6 +234,7 @@ int		check_path(t_parsing *p_data, int i, int j);
 // parsing_usr.c
 int		get_usr(t_parsing *p_data);
 void	get_user_info(t_parsing *p_data, int y, int x);
+void	set_user_dir_pl(t_parsing *p_data, char c);
 
 // parsing_utils.c
 void	*ft_calloc2(size_t nmemb, size_t size);

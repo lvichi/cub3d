@@ -56,34 +56,34 @@ void	load_img(char *path, t_img *img)
 	img->data = mlx_get_data_addr(img->ptr, &img->bpp, &img->sl, &img->endian);
 }
 
-int	init_map_tmp(void)
-{
-	const int		size = 8;
-	const int		map_tmp[] = {
-		1, 1, 1, 1, 1, 1, 1, 1,
-		1, 0, 0, 0, 0, 0, 0, 1,
-		1, 0, 0, 0, 1, 0, 0, 1,
-		1, 0, 0, 1, 1, 1, 0, 1,
-		1, 0, 0, 1, 0, 0, 0, 1,
-		1, 0, 0, 1, 0, 0, 0, 1,
-		1, 0, 0, 0, 0, 0, 0, 1,
-		1, 1, 1, 1, 1, 1, 1, 1};
-	const size_t	map_size = sizeof(map_tmp) / sizeof(int);
-	int *const		map_data = ft_calloc(map_size, sizeof(int));
-
-	if (!map_data)
-		return (0);
-	g()->map.data = map_data;
-	g()->map.width = size;
-	g()->map.height = size;
-	g()->usr.posx = 5.5;
-	g()->usr.posy = 5.5;
-	g()->usr.dirx = 1.0;
-	g()->usr.ply = 0.66;
-	load_img("north.xpm", &g()->map.north);
-	load_img("north.xpm", &g()->map.south);
-	load_img("south.xpm", &g()->map.east);
-	load_img("south.xpm", &g()->map.west);
-	ft_memmove(g()->map.data, map_tmp, sizeof(map_tmp));
-	return (1);
-}
+//int	init_map_tmp(void)
+//{
+//	const int		size = 8;
+//	const int		map_tmp[] = {
+//		1, 1, 1, 1, 1, 1, 1, 1,
+//		1, 0, 0, 0, 0, 0, 0, 1,
+//		1, 0, 0, 0, 1, 0, 0, 1,
+//		1, 0, 0, 1, 1, 1, 0, 1,
+//		1, 0, 0, 1, 0, 0, 0, 1,
+//		1, 0, 0, 1, 0, 0, 0, 1,
+//		1, 0, 0, 0, 0, 0, 0, 1,
+//		1, 1, 1, 1, 1, 1, 1, 1};
+//	const size_t	map_size = sizeof(map_tmp) / sizeof(int);
+//	int *const		map_data = ft_calloc(map_size, sizeof(int));
+//
+//	if (!map_data)
+//		return (0);
+//	g()->map.data = map_data;
+//	g()->map.width = size;
+//	g()->map.height = size;
+//	g()->usr.posx = 5.5;
+//	g()->usr.posy = 5.5;
+//	g()->usr.dirx = 1.0;
+//	g()->usr.ply = 0.66;
+//	load_img("north.xpm", &g()->map.north);
+//	load_img("north.xpm", &g()->map.south);
+//	load_img("south.xpm", &g()->map.east);
+//	load_img("south.xpm", &g()->map.west);
+//	ft_memmove(g()->map.data, map_tmp, sizeof(map_tmp));
+//	return (1);
+//}
