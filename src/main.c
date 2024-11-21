@@ -22,8 +22,6 @@ int	get_map_value(int x, int y)
 int	loop(void)
 {
 	time_update();
-	if (g()->debug)
-		printf("FPS: %f\r", g()->time.fps);
 	raycast();
 	move(SPEED);
 	rotate(ROT_SPEED);

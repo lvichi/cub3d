@@ -38,6 +38,7 @@ t_dda	raycast_start(int x)
 	const float	camx = 2 * x / (float)g()->frame.width - 1;
 	t_dda		res;
 
+	res = (t_dda){0};
 	res.x = x;
 	res.rdx = g()->usr.dirx + g()->usr.plx * camx;
 	res.rdy = g()->usr.diry + g()->usr.ply * camx;
@@ -109,7 +110,7 @@ void	raycast_draw(t_dda *dda, t_img *img)
 		color = 0;
 		if (ty >= 0 && ty < img->height)
 			color = *(int *)(img->data + (ty * img->sl + tx * (img->bpp / 8)));
-		put_pixel(dda->x, y++, darken_color(color, 1 - dda->side * .6));
+		put_pixel(dda->x, y++, darken_color(color, 1 - dda->side * .1));
 	}
 	draw_vertical_line(dda->x, 0, dda->dstart, g()->map.ceil_color);
 	draw_vertical_line(dda->x, dda->dend,
@@ -127,13 +128,13 @@ void	raycast(void)
 		res = raycast_start(res.x);
 		raycast_hit(&res);
 		if (res.side == 0 && res.rdx > 0)
-			raycast_draw(&res, &g()->map.north);
-		else if (res.side == 0 && res.rdx < 0)
-			raycast_draw(&res, &g()->map.north);
-		else if (res.side == 1 && res.rdy > 0)
 			raycast_draw(&res, &g()->map.east);
-		else if (res.side == 1 && res.rdy < 0)
+		else if (res.side == 0 && res.rdx < 0)
 			raycast_draw(&res, &g()->map.west);
+		else if (res.side == 1 && res.rdy > 0)
+			raycast_draw(&res, &g()->map.south);
+		else if (res.side == 1 && res.rdy < 0)
+			raycast_draw(&res, &g()->map.north);
 		res.x++;
 	}
 }
